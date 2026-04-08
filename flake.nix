@@ -28,7 +28,15 @@
             
             src = ./.;
 
-            nativeBuildInputs = [ pkgs.makeWrapper ];
+            nativeBuildInputs = [ 
+              pkgs.makeWrapper 
+              pkgs.qt6.wrapQtAppsHook  # <--- ADDED: Provides makeQtWrapper
+            ];
+
+            buildInputs = [
+              pkgs.qt6.qt5compat       # <--- ADDED: Provides Qt5Compat.GraphicalEffects
+              # (Add pkgs.qt6.qtsvg here later if you end up needing SVG icons!)
+            ];
 
             installPhase = ''
               runHook preInstall
@@ -37,7 +45,10 @@
               cp -r *.qml $out/share/bar207/
 
               mkdir -p $out/bin
-              makeWrapper ${qsPkg}/bin/quickshell $out/bin/bar207 \
+              
+              # CHANGED: Use makeQtWrapper instead of makeWrapper. 
+              # This automatically injects QML2_IMPORT_PATH based on your buildInputs.
+              makeQtWrapper ${qsPkg}/bin/quickshell $out/bin/bar207 \
                 --add-flags "-p $out/share/bar207/shell.qml"
 
               runHook postInstall
