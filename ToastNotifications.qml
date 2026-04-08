@@ -226,9 +226,15 @@ PanelWindow {
             target: progressBar
             property: "width"
             to: 0
+            
+            // If the app gives a specific time (> 0), use it. 
+            // If it asks for infinite (0) or default (-1), force 5000ms.
             duration: toastCard.notification.expireTimeout > 0 ? toastCard.notification.expireTimeout : 5000
             
-            running: toastCard.notification.expireTimeout !== 0 
+            // ALWAYS run the timeout, ignoring apps that beg to stay open forever
+            running: true 
+            
+            // Standard pausing logic
             paused: cardHover.hovered || !toastWindow.visible 
             
             onFinished: {
