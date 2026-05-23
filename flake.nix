@@ -3,13 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    
-    # Using the bleeding-edge Quickshell as requested
-    quickshell.url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-    quickshell.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, quickshell, ... }:
+  outputs = { self, nixpkgs, ... }:
     let
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
@@ -20,7 +16,6 @@
       packages = forAllSystems (system:
         let
           pkgs = pkgsFor system;
-          qsPkg = quickshell.packages.${system}.default;
         in {
           default = pkgs.stdenv.mkDerivation {
             pname = "bar207";
@@ -45,8 +40,7 @@
 
               mkdir -p $out/bin
               
-              # CHANGED: Added --prefix PATH to make bash, nmcli, and grep visible to the bar
-              makeQtWrapper ${qsPkg}/bin/quickshell $out/bin/bar207 \
+              makeQtWrapper ${pkgs.quickshell}/bin/quickshell $out/bin/bar207 \
                 --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.bash pkgs.networkmanager pkgs.gnugrep ]} \
                 --add-flags "-p $out/share/bar207/shell.qml"
 
@@ -62,7 +56,6 @@
         };
       });
 
-      # 3. The NixOS Module (Now with Color Theming!)
       nixosModules.default = { config, lib, pkgs, ... }:
         let
           cfg = config.programs.bar207;
@@ -72,11 +65,11 @@
             
             package = lib.mkOption {
               type = lib.types.package;
-              default = self.packages.${pkgs.system}.default;
+              default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
               description = "The bar207 package to use.";
             };
 
-            # --- NEW: Color Config Options ---
+            # --- Color Config Options ---
             colors = {
               background = lib.mkOption {
                 type = lib.types.str;
@@ -126,7 +119,6 @@
                 '';
               });
             in {
-              # 3. Install and run the fully themed package
               environment.systemPackages = [ finalPackage ];
 
               systemd.user.services.bar207 = {
