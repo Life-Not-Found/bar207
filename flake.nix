@@ -3,9 +3,12 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    quickshell.url = "github:quickshell-mirror/quickshell/v0.3.0";
+    quickshell.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, ... }:
+  outputs = { self, nixpkgs, quickshell, ... }:
     let
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
@@ -15,21 +18,21 @@
       packages = forAllSystems (system:
         let
           pkgs = pkgsFor system;
+          qsPkg = quickshell.packages.${system}.default;
         in {
           default = pkgs.stdenv.mkDerivation {
             pname = "bar207";
             version = "main";
-            
+
             src = ./.;
 
-            nativeBuildInputs = [ 
-              pkgs.makeWrapper 
-              pkgs.qt6.wrapQtAppsHook 
+            nativeBuildInputs = [
+              pkgs.makeWrapper
+              pkgs.qt6.wrapQtAppsHook
             ];
 
             buildInputs = [
               pkgs.qt6.qt5compat
-              pkgs.quickshell
             ];
 
             installPhase = ''
@@ -39,8 +42,8 @@
               cp -r *.qml $out/share/bar207/
 
               mkdir -p $out/bin
-              
-              makeQtWrapper ${pkgs.quickshell}/bin/quickshell $out/bin/bar207 \
+
+              makeQtWrapper ${qsPkg}/bin/quickshell $out/bin/bar207 \
                 --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.bash pkgs.networkmanager pkgs.gnugrep ]} \
                 --add-flags "-p $out/share/bar207/shell.qml"
 
@@ -62,14 +65,13 @@
         in {
           options.programs.bar207 = {
             enable = lib.mkEnableOption "bar207 status bar";
-            
+
             package = lib.mkOption {
               type = lib.types.package;
               default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
               description = "The bar207 package to use.";
             };
 
-            # --- Color Config Options ---
             colors = {
               background = lib.mkOption {
                 type = lib.types.str;
@@ -111,7 +113,6 @@
               '';
               finalPackage = cfg.package.overrideAttrs (oldAttrs: {
                 postInstall = (oldAttrs.postInstall or "") + ''
-                  # Overwrite the default Colors.qml with our custom generated one
                   cp ${customColorsFile} $out/share/bar207/Colors.qml
                 '';
               });
@@ -123,7 +124,7 @@
                 wantedBy = [ "graphical-session.target" ];
                 partOf = [ "graphical-session.target" ];
                 after = [ "graphical-session.target" ];
-                
+
                 serviceConfig = {
                   ExecStart = "${finalPackage}/bin/bar207";
                   Restart = "on-failure";
