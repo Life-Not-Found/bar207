@@ -12,7 +12,6 @@
       pkgsFor = system: import nixpkgs { inherit system; };
     in
     {
-      # 1. The Package Definition
       packages = forAllSystems (system:
         let
           pkgs = pkgsFor system;
@@ -30,6 +29,7 @@
 
             buildInputs = [
               pkgs.qt6.qt5compat
+              pkgs.quickshell
             ];
 
             installPhase = ''
@@ -96,7 +96,6 @@
 
           config = lib.mkIf cfg.enable (
             let
-              # 1. Dynamically generate the Colors.qml file based on the config
               customColorsFile = pkgs.writeText "Colors.qml" ''
                 pragma Singleton
                 import Quickshell
@@ -110,8 +109,6 @@
                   readonly property color inactive:   "${cfg.colors.inactive}"
                 }
               '';
-
-              # 2. Override the original package to inject our custom colors file
               finalPackage = cfg.package.overrideAttrs (oldAttrs: {
                 postInstall = (oldAttrs.postInstall or "") + ''
                   # Overwrite the default Colors.qml with our custom generated one
