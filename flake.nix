@@ -111,10 +111,10 @@
 
                 Singleton {
                   id: root
-                  readonly property color background: "${cfg.Config.background}"
-                  readonly property color selection:  "${cfg.Config.selection}"
-                  readonly property color foreground: "${cfg.Config.foreground}"
-                  readonly property color inactive:   "${cfg.Config.inactive}"
+                  readonly property color background: "${cfg.colors.background}"
+                  readonly property color selection:  "${cfg.colors.selection}"
+                  readonly property color foreground: "${cfg.colors.foreground}"
+                  readonly property color inactive:   "${cfg.colors.inactive}"
                   readonly property bool showBatteryPercent: ${if cfg.showBatteryPercent then "true" else "false"}
                 }
               '';
