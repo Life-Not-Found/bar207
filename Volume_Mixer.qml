@@ -32,12 +32,12 @@ PopupWindow {
 
       background: Rectangle {
         implicitHeight: 16
-        color: Colors.inactive
+        color: Config.inactive
         radius: 6
         Rectangle {
           width: control.visualPosition * parent.width
           height: parent.height
-          color: Colors.foreground
+          color: Config.foreground
           radius: 6
         }
       }
@@ -46,7 +46,7 @@ PopupWindow {
 
     Text {
       text: Math.round(control.value * 100) + "%"
-      color: Colors.foreground
+      color: Config.foreground
       Layout.preferredWidth: 35
       horizontalAlignment: Text.AlignRight
     }
@@ -70,7 +70,7 @@ PopupWindow {
         height: 14
         radius: 7
         color: "transparent"
-        border.color: Colors.foreground
+        border.color: Config.foreground
         border.width: 1.5
 
         Rectangle {
@@ -78,14 +78,14 @@ PopupWindow {
           width: 8
           height: 8
           radius: 4
-          color: Colors.foreground
+          color: Config.foreground
           visible: isChecked
         }
       }
 
       Text {
         text: labelText
-        color: Colors.foreground
+        color: Config.foreground
         elide: Text.ElideRight
         Layout.maximumWidth: 252
         Layout.fillWidth: true
@@ -101,10 +101,10 @@ PopupWindow {
 
   Rectangle {
     anchors.fill: parent
-    color: Colors.background
+    color: Config.background
     radius: 16
     border.width: 2
-    border.color: Colors.foreground
+    border.color: Config.foreground
 
     HoverHandler {
       property bool hasHovered: false
@@ -131,7 +131,7 @@ PopupWindow {
 
       Text {
         text: "Audio mixer"
-        color: Colors.foreground
+        color: Config.foreground
         font.pixelSize: 14
         font.bold: true
         Layout.fillWidth: true

@@ -25,10 +25,10 @@ PopupWindow {
 
   Rectangle {
     anchors.fill: parent
-    color: Colors.background
+    color: Config.background
     radius: 16
     border.width: 2
-    border.color: Colors.foreground
+    border.color: Config.foreground
 
     HoverHandler {
       property bool hasHovered: false
@@ -58,7 +58,7 @@ PopupWindow {
       // App title
       Text {
         text: trayMenu.trayItem?.title ?? ""
-        color: Colors.foreground
+        color: Config.foreground
         font.pixelSize: 14
         font.bold: true
         Layout.fillWidth: true
@@ -69,7 +69,7 @@ PopupWindow {
       Rectangle {
         Layout.fillWidth: true
         height: 1
-        color: Colors.foreground
+        color: Config.foreground
         opacity: 0.2
         visible: (trayMenu.trayItem?.title ?? "") !== ""
       }
@@ -83,7 +83,7 @@ PopupWindow {
           Layout.fillWidth: true
           implicitHeight: modelData.isSeparator ? 9 : entryText.implicitHeight + 8
           color: !modelData.isSeparator && entryArea.containsMouse
-            ? Colors.selection
+            ? Config.selection
             : "transparent"
           radius: 6
 
@@ -93,7 +93,7 @@ PopupWindow {
             anchors.centerIn: parent
             width: parent.width
             height: 1
-            color: Colors.foreground
+            color: Config.foreground
             opacity: 0.2
           }
 
@@ -105,7 +105,7 @@ PopupWindow {
             anchors.left: parent.left
             anchors.leftMargin: 8
             text: modelData.text ?? ""
-            color: (modelData.enabled ?? true) ? Colors.foreground : Colors.inactive
+            color: (modelData.enabled ?? true) ? Config.foreground : Config.inactive
             font.pixelSize: 13
           }
 

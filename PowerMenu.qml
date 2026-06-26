@@ -93,9 +93,9 @@ Scope {
               width: 120
               height: 120
               radius: 16
-              color: btnArea.containsMouse ? Colors.selection : Colors.background
+              color: btnArea.containsMouse ? Config.selection : Config.background
               
-              border.color: btnArea.containsMouse ? Colors.foreground : "transparent"
+              border.color: btnArea.containsMouse ? Config.foreground : "transparent"
               border.width: 1
 
               ColumnLayout {
@@ -105,12 +105,12 @@ Scope {
                 Text {
                   text: parent.parent.modelData.icon
                   font.pixelSize: 42
-                  color: Colors.foreground
+                  color: Config.foreground
                   Layout.alignment: Qt.AlignHCenter
                 }
                 Text {
                   text: parent.parent.modelData.label
-                  color: Colors.foreground
+                  color: Config.foreground
                   font.pixelSize: 14
                   Layout.alignment: Qt.AlignHCenter
                 }

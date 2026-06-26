@@ -57,9 +57,9 @@ PopupWindow {
   Rectangle {
     anchors.fill: parent
     radius: 12
-    color: Colors.background
+    color: Config.background
     border.width: 2
-    border.color: Colors.foreground
+    border.color: Config.foreground
     clip: true
 
     HoverHandler {
@@ -110,7 +110,7 @@ PopupWindow {
       anchors.leftMargin: 12
       anchors.verticalCenter: parent.verticalCenter
       text: ""
-      color: Colors.foreground
+      color: Config.foreground
       font.pixelSize: 24
       MouseArea {
         anchors.fill: parent
@@ -125,7 +125,7 @@ PopupWindow {
       anchors.rightMargin: 12
       anchors.verticalCenter: parent.verticalCenter
       text: ""
-      color: Colors.foreground
+      color: Config.foreground
       font.pixelSize: 24
       MouseArea {
         anchors.fill: parent
@@ -147,7 +147,7 @@ PopupWindow {
         Text {
           Layout.fillWidth: true
           text: mediaPopup.player?.metadata["xesam:title"] ?? "Nothing playing"
-          color: Colors.foreground
+          color: Config.foreground
           font.pixelSize: 16
           font.bold: true
           elide: Text.ElideRight
@@ -156,7 +156,7 @@ PopupWindow {
         Text {
           Layout.fillWidth: true
           text: mediaPopup.player?.metadata["xesam:artist"]?.join(", ") ?? ""
-          color: Colors.inactive
+          color: Config.inactive
           font.pixelSize: 13
           elide: Text.ElideRight
         }
@@ -173,13 +173,13 @@ PopupWindow {
           id: progressTrack
           anchors.fill: parent
           radius: 2
-          color: Colors.inactive
+          color: Config.inactive
 
           Rectangle {
             width: progressTrack.width * (mediaPopup.player?.position / mediaPopup.player?.length ?? 0)
             height: parent.height
             radius: 2
-            color: Colors.foreground
+            color: Config.foreground
           }
         }
 
@@ -201,7 +201,7 @@ PopupWindow {
 
         Text {
           text: "󰒮"
-          color: Colors.foreground
+          color: Config.foreground
           font.pixelSize: 20
           MouseArea {
             anchors.fill: parent
@@ -213,7 +213,7 @@ PopupWindow {
           Layout.fillWidth: true
           horizontalAlignment: Text.AlignHCenter
           text: mediaPopup.player?.playbackState === MprisPlaybackState.Playing ? "" : ""
-          color: Colors.foreground
+          color: Config.foreground
           font.pixelSize: 24
           MouseArea {
             anchors.fill: parent
@@ -228,7 +228,7 @@ PopupWindow {
 
         Text {
           text: "󰒭"
-          color: Colors.foreground
+          color: Config.foreground
           font.pixelSize: 20
           MouseArea {
             anchors.fill: parent

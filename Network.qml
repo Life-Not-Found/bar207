@@ -110,10 +110,10 @@ PopupWindow {
 
   Rectangle {
     anchors.fill: parent
-    color: Colors.background
+    color: Config.background
     radius: 16
     border.width: 2
-    border.color: Colors.foreground
+    border.color: Config.foreground
 
     HoverHandler {
       property bool hasHovered: false
@@ -145,7 +145,7 @@ PopupWindow {
         Layout.bottomMargin: 4
         Text {
           text: "Network"
-          color: Colors.foreground
+          color: Config.foreground
           font.pixelSize: 14
           font.bold: true
         }
@@ -164,12 +164,12 @@ PopupWindow {
             spacing: 12
             Text {
               text: "󰈀"
-              color: model.connected ? Colors.foreground : Colors.inactive
+              color: model.connected ? Config.foreground : Config.inactive
               font.pixelSize: 16
             }
             Text {
               text: model.name 
-              color: model.connected ? Colors.foreground : Colors.inactive
+              color: model.connected ? Config.foreground : Config.inactive
               font.bold: model.connected
               font.pixelSize: 13
               Layout.fillWidth: true
@@ -177,7 +177,7 @@ PopupWindow {
             }
             Text {
               text: "󰄬"
-              color: Colors.foreground
+              color: Config.foreground
               font.pixelSize: 12
               visible: model.connected
             }
@@ -185,7 +185,7 @@ PopupWindow {
               implicitWidth: 36
               implicitHeight: 20
               radius: 10
-              color: model.connected ? Colors.selection : Colors.inactive
+              color: model.connected ? Config.selection : Config.inactive
               Process { id: ethToggleProcess }
               MouseArea {
                 anchors.fill: parent
@@ -204,7 +204,7 @@ PopupWindow {
                 width: 16
                 height: 16
                 radius: 8
-                color: Colors.foreground
+                color: Config.foreground
                 anchors.verticalCenter: parent.verticalCenter
                 x: model.connected ? parent.width - width - 2 : 2
                 Behavior on x { NumberAnimation { duration: 150 } }
@@ -217,7 +217,7 @@ PopupWindow {
       Rectangle {
         Layout.fillWidth: true
         height: 1
-        color: Colors.inactive
+        color: Config.inactive
         opacity: 0.3
         Layout.topMargin: 4
         Layout.bottomMargin: 4
@@ -231,13 +231,13 @@ PopupWindow {
 
         Text {
           text: "" 
-          color: Colors.foreground
+          color: Config.foreground
           font.pixelSize: 18
         }
 
         Text {
           text: "Wi-Fi"
-          color: Colors.foreground
+          color: Config.foreground
           font.bold: true
           font.pixelSize: 13
         }
@@ -247,7 +247,7 @@ PopupWindow {
           implicitWidth: 36
           implicitHeight: 20
           radius: 10
-          color: Networking.wifiEnabled ? Colors.selection : Colors.inactive
+          color: Networking.wifiEnabled ? Config.selection : Config.inactive
 
           MouseArea {
             anchors.fill: parent
@@ -258,7 +258,7 @@ PopupWindow {
             width: 16
             height: 16
             radius: 8
-            color: Colors.foreground
+            color: Config.foreground
             anchors.verticalCenter: parent.verticalCenter
             x: Networking.wifiEnabled ? parent.width - width - 2 : 2
             Behavior on x { NumberAnimation { duration: 150 } }
@@ -273,7 +273,7 @@ PopupWindow {
           text: ""
           font.pixelSize: 14
           // Logic: Changes color on hover, stays highlighted if active
-          color: scanArea.containsMouse ? Colors.inactive : Colors.foreground
+          color: scanArea.containsMouse ? Config.inactive : Config.foreground
 
           // State tracking mirroring Bluetooth style
           property bool isScanning: networkWindow.wifiDevice ? networkWindow.wifiDevice.scannerEnabled : false
@@ -326,7 +326,7 @@ PopupWindow {
         visible: Networking.wifiEnabled && networkWindow.wifiDevice !== null
         Text {
           text: "Available Networks"
-          color: Colors.inactive
+          color: Config.inactive
           font.pixelSize: 12
           font.bold: true
           Layout.bottomMargin: 4
@@ -338,7 +338,7 @@ PopupWindow {
             required property var modelData
             Layout.fillWidth: true
             implicitHeight: networkCol.implicitHeight + 16 
-            color: (networkArea.containsMouse || networkWindow.expandedNetwork === modelData.name) ? Colors.selection : "transparent"
+            color: (networkArea.containsMouse || networkWindow.expandedNetwork === modelData.name) ? Config.selection : "transparent"
             radius: 6 
             ColumnLayout {
               id: networkCol
@@ -348,17 +348,17 @@ PopupWindow {
                 Layout.fillWidth: true; spacing: 12
                 Text {
                   text: modelData.signalStrength > 0.66 ? "󰤨" : modelData.signalStrength > 0.33 ? "󰤥" : "󰤢"
-                  color: (modelData.connected || modelData.known) ? Colors.foreground : Colors.inactive
+                  color: (modelData.connected || modelData.known) ? Config.foreground : Config.inactive
                   font.pixelSize: 16
                 }
                 Text {
                   text: modelData.name ?? ""
-                  color: (modelData.connected || modelData.known) ? Colors.foreground : Colors.inactive 
+                  color: (modelData.connected || modelData.known) ? Config.foreground : Config.inactive 
                   font.pixelSize: 13; Layout.fillWidth: true; elide: Text.ElideRight; font.bold: modelData.connected
                 }
                 Text {
                   text: modelData.connected ? "󰄬" : ""
-                  color: (modelData.connected || modelData.known) ? Colors.foreground : Colors.inactive
+                  color: (modelData.connected || modelData.known) ? Config.foreground : Config.inactive
                   font.pixelSize: 12
                   visible: modelData.connected || (!modelData.known && modelData.security !== 0 && modelData.security !== WifiSecurityType.None && modelData.security !== 10)
                 }
@@ -373,19 +373,19 @@ PopupWindow {
                   spacing: 8
                   TextField {
                     id: passwordInput; Layout.fillWidth: true; placeholderText: "Password..."; echoMode: TextInput.Password 
-                    color: Colors.foreground; font.pixelSize: 12
+                    color: Config.foreground; font.pixelSize: 12
                     text: (networkWindow.expandedNetwork === modelData.name) ? networkWindow.currentPasswordDraft : ""
                     onTextEdited: networkWindow.currentPasswordDraft = text
                     Component.onCompleted: if (networkWindow.expandedNetwork === modelData.name) { forceActiveFocus(); cursorPosition = text.length }
-                    background: Rectangle { color: Colors.background; border.color: Colors.inactive; radius: 4 }
+                    background: Rectangle { color: Config.background; border.color: Config.inactive; radius: 4 }
                     onAccepted: (mouse) => connectButtonArea.clicked(mouse) 
                   }
                   Rectangle {
                     implicitWidth: 60; implicitHeight: passwordInput.height
-                    color: connectButtonArea.containsMouse ? Colors.selection : Colors.background
-                    border.color: Colors.inactive; border.width: 1; radius: 4
+                    color: connectButtonArea.containsMouse ? Config.selection : Config.background
+                    border.color: Config.inactive; border.width: 1; radius: 4
                     Process { id: connectProcess }
-                    Text { anchors.centerIn: parent; text: "Connect"; color: Colors.foreground; font.pixelSize: 11 }
+                    Text { anchors.centerIn: parent; text: "Connect"; color: Config.foreground; font.pixelSize: 11 }
                     MouseArea {
                       id: connectButtonArea; anchors.fill: parent; hoverEnabled: true
                       onClicked: (mouse) => {
@@ -400,11 +400,11 @@ PopupWindow {
                   Layout.fillWidth: true; visible: modelData.connected || modelData.known; spacing: 12
                   RowLayout {
                     Layout.fillWidth: true; spacing: 12
-                    Text { text: "Auto-Connect"; color: Colors.foreground; font.pixelSize: 12; Layout.fillWidth: true }
+                    Text { text: "Auto-Connect"; color: Config.foreground; font.pixelSize: 12; Layout.fillWidth: true }
                     Rectangle {
                       implicitWidth: 32; implicitHeight: 18; radius: 9
                       property bool autoConnectState: modelData.autoConnect !== undefined ? modelData.autoConnect : true 
-                      color: Colors.inactive
+                      color: Config.inactive
                       Process { id: autoconnectProcess }
                       MouseArea {
                         anchors.fill: parent
@@ -416,7 +416,7 @@ PopupWindow {
                         }
                       }
                       Rectangle {
-                        width: 14; height: 14; radius: 7; color: Colors.foreground; anchors.verticalCenter: parent.verticalCenter
+                        width: 14; height: 14; radius: 7; color: Config.foreground; anchors.verticalCenter: parent.verticalCenter
                         x: parent.autoConnectState ? parent.width - width - 2 : 2
                         Behavior on x { NumberAnimation { duration: 150 } }
                       }
@@ -425,19 +425,19 @@ PopupWindow {
                   RowLayout {
                     Layout.fillWidth: true; spacing: 8
                     Rectangle {
-                      Layout.fillWidth: true; implicitHeight: 28; color: toggleBtnArea.containsMouse ? Colors.inactive : Colors.selection
-                      border.color: Colors.inactive; border.width: 1; radius: 4
-                      Text { anchors.centerIn: parent; text: modelData.connected ? "Disconnect" : "Connect"; color: Colors.foreground; font.pixelSize: 11 }
+                      Layout.fillWidth: true; implicitHeight: 28; color: toggleBtnArea.containsMouse ? Config.inactive : Config.selection
+                      border.color: Config.inactive; border.width: 1; radius: 4
+                      Text { anchors.centerIn: parent; text: modelData.connected ? "Disconnect" : "Connect"; color: Config.foreground; font.pixelSize: 11 }
                       MouseArea {
                         id: toggleBtnArea; anchors.fill: parent; hoverEnabled: true
                         onClicked: (mouse) => { if (modelData.connected) modelData.disconnect(); else modelData.connect(); networkWindow.expandedNetwork = "" }
                       }
                     }
                     Rectangle {
-                      Layout.fillWidth: true; implicitHeight: 28; color: forgetBtnArea.containsMouse ? Colors.inactive : Colors.selection
-                      border.color: Colors.inactive; border.width: 1; radius: 4; visible: modelData.known
+                      Layout.fillWidth: true; implicitHeight: 28; color: forgetBtnArea.containsMouse ? Config.inactive : Config.selection
+                      border.color: Config.inactive; border.width: 1; radius: 4; visible: modelData.known
                       Process { id: forgetProcess }
-                      Text { anchors.centerIn: parent; text: "Forget"; color: Colors.foreground; font.pixelSize: 11 }
+                      Text { anchors.centerIn: parent; text: "Forget"; color: Config.foreground; font.pixelSize: 11 }
                       MouseArea {
                         id: forgetBtnArea; anchors.fill: parent; hoverEnabled: true
                         onClicked: (mouse) => {
@@ -465,7 +465,7 @@ PopupWindow {
           }
         }
         Text {
-          text: "No networks found"; color: Colors.inactive; font.pixelSize: 12
+          text: "No networks found"; color: Config.inactive; font.pixelSize: 12
           visible: networkWindow.wifiDevice && networkWindow.wifiDevice.networks.values.length === 0
           Layout.alignment: Qt.AlignHCenter; Layout.bottomMargin: 4
         }

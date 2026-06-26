@@ -72,6 +72,12 @@
               description = "The bar207 package to use.";
             };
 
+            showBatteryPercent = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = "Show battery percentage next to the battery icon in the bar.";
+            };
+
             colors = {
               background = lib.mkOption {
                 type = lib.types.str;
@@ -98,22 +104,23 @@
 
           config = lib.mkIf cfg.enable (
             let
-              customColorsFile = pkgs.writeText "Colors.qml" ''
+              configFile = pkgs.writeText "Config.qml" ''
                 pragma Singleton
                 import Quickshell
                 import QtQuick
 
                 Singleton {
                   id: root
-                  readonly property color background: "${cfg.colors.background}"
-                  readonly property color selection:  "${cfg.colors.selection}"
-                  readonly property color foreground: "${cfg.colors.foreground}"
-                  readonly property color inactive:   "${cfg.colors.inactive}"
+                  readonly property color background: "${cfg.Config.background}"
+                  readonly property color selection:  "${cfg.Config.selection}"
+                  readonly property color foreground: "${cfg.Config.foreground}"
+                  readonly property color inactive:   "${cfg.Config.inactive}"
+                  readonly property bool showBatteryPercent: ${if cfg.showBatteryPercent then "true" else "false"}
                 }
               '';
               finalPackage = cfg.package.overrideAttrs (oldAttrs: {
                 postInstall = (oldAttrs.postInstall or "") + ''
-                  cp ${customColorsFile} $out/share/bar207/Colors.qml
+                  cp ${configFile} $out/share/bar207/Config.qml
                 '';
               });
             in {

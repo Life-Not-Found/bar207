@@ -4,7 +4,7 @@ Rectangle {
   default property alias content: container.children
 
   radius: height / 3
-  color: Colors.background
+  color: Config.background
   implicitHeight: 32
   implicitWidth: container.implicitWidth + 24
 

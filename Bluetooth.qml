@@ -46,10 +46,10 @@ PopupWindow {
 
   Rectangle {
     anchors.fill: parent
-    color: Colors.background
+    color: Config.background
     radius: 16
     border.width: 2
-    border.color: Colors.foreground
+    border.color: Config.foreground
 
     HoverHandler {
       property bool hasHovered: false
@@ -83,13 +83,13 @@ PopupWindow {
 
         Text {
           text: "󰂯" 
-          color: Colors.foreground
+          color: Config.foreground
           font.pixelSize: 18
         }
 
         Text {
           text: "Bluetooth"
-          color: Colors.foreground
+          color: Config.foreground
           font.bold: true
           font.pixelSize: 13
         }
@@ -102,7 +102,7 @@ PopupWindow {
           
           // Safely check if the adapter exists to determine power state
           property bool btEnabled: Bluetooth.defaultAdapter ? Bluetooth.defaultAdapter.enabled : false
-          color: btEnabled ? Colors.selection : Colors.inactive
+          color: btEnabled ? Config.selection : Config.inactive
 
           MouseArea {
             anchors.fill: parent
@@ -117,7 +117,7 @@ PopupWindow {
             width: 16
             height: 16
             radius: 8
-            color: Colors.foreground
+            color: Config.foreground
             anchors.verticalCenter: parent.verticalCenter
             x: parent.btEnabled ? parent.width - width - 2 : 2
             Behavior on x { NumberAnimation { duration: 150 } }
@@ -129,7 +129,7 @@ PopupWindow {
         Text {
           id: scanButton
           text: ""
-          color: scanArea.containsMouse ? Colors.inactive : Colors.foreground
+          color: scanArea.containsMouse ? Config.inactive : Config.foreground
           font.pixelSize: 14
           
           // Hide the scan button if Bluetooth is turned off
@@ -186,7 +186,7 @@ PopupWindow {
       Rectangle {
         Layout.fillWidth: true
         height: 1
-        color: Colors.inactive
+        color: Config.inactive
         opacity: 0.3
         Layout.topMargin: 4
         Layout.bottomMargin: 4
@@ -254,7 +254,7 @@ PopupWindow {
                 // Connection Icon
                 Text {
                   text: isConnecting ? "󰔟" : (connectionFailed ? "󰂲" : deviceIcon(modelData.icon))
-                  color: connectionFailed ? "#ff5555" : (modelData.connected ? Colors.foreground : Colors.inactive)
+                  color: connectionFailed ? "#ff5555" : (modelData.connected ? Config.foreground : Config.inactive)
                   font.pixelSize: 16
                 }
 
@@ -263,8 +263,8 @@ PopupWindow {
                   id: deviceText
                   text: modelData.name
                   color: modelData.connected 
-                    ? (nameArea.containsMouse ? Colors.inactive : Colors.foreground) 
-                    : (nameArea.containsMouse ? Colors.foreground : Colors.inactive)
+                    ? (nameArea.containsMouse ? Config.inactive : Config.foreground) 
+                    : (nameArea.containsMouse ? Config.foreground : Config.inactive)
                   Layout.fillWidth: true 
                   elide: Text.ElideRight
                   
@@ -290,8 +290,8 @@ PopupWindow {
                   visible: modelData.paired
                   text: modelData.trusted ? "" : "" 
                   color: modelData.trusted
-                    ? (trustArea.containsMouse ? Colors.inactive : Colors.foreground) 
-                    : (trustArea.containsMouse ? Colors.foreground : Colors.inactive)
+                    ? (trustArea.containsMouse ? Config.inactive : Config.foreground) 
+                    : (trustArea.containsMouse ? Config.foreground : Config.inactive)
                   font.pixelSize: 16
 
                   ToolTip {
@@ -299,11 +299,11 @@ PopupWindow {
                     delay: 400
                     contentItem: Text {
                       text: "Auto-connect"
-                      color: Colors.foreground
+                      color: Config.foreground
                       font.pixelSize: 12
                     }
                     background: Rectangle {
-                      color: Colors.selection
+                      color: Config.selection
                       radius: 6
                     }
                   }
@@ -320,7 +320,7 @@ PopupWindow {
                 Text {
                   visible: modelData.paired
                   text: "󰆴" 
-                  color: forgetArea.containsMouse ? "#ff5555" : Colors.inactive
+                  color: forgetArea.containsMouse ? "#ff5555" : Config.inactive
                   font.pixelSize: 16
 
                   ToolTip {
@@ -328,11 +328,11 @@ PopupWindow {
                     delay: 400
                     contentItem: Text {
                       text: "Forget Device"
-                      color: Colors.foreground
+                      color: Config.foreground
                       font.pixelSize: 12
                     }
                     background: Rectangle {
-                      color: Colors.selection
+                      color: Config.selection
                       radius: 6
                     }
                   }
@@ -355,7 +355,7 @@ PopupWindow {
       // Optional: Message when Bluetooth is off
       Text {
         text: "Bluetooth is turned off"
-        color: Colors.inactive
+        color: Config.inactive
         font.pixelSize: 12
         Layout.alignment: Qt.AlignHCenter
         visible: Bluetooth.defaultAdapter ? !Bluetooth.defaultAdapter.enabled : true

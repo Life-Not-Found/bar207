@@ -38,7 +38,7 @@ PanelWindow {
         
         width: 350
         implicitHeight: mainCol.implicitHeight + 16
-        color: Colors.background 
+        color: Config.background 
         radius: 8
         
         layer.enabled: true
@@ -86,14 +86,14 @@ PanelWindow {
               spacing: 2
               Text {
                 text: toastCard.notification.summary
-                color: Colors.foreground
+                color: Config.foreground
                 font.bold: true
                 Layout.fillWidth: true
                 elide: Text.ElideRight 
               }
               Text {
                 text: toastCard.notification.body
-                color: Colors.inactive
+                color: Config.inactive
                 font.pixelSize: 12
                 Layout.fillWidth: true
                 wrapMode: Text.Wrap 
@@ -102,7 +102,7 @@ PanelWindow {
 
             Text {
               text: " 󰅖" 
-              color: closeArea.containsMouse ? "#ff5555" : Colors.inactive
+              color: closeArea.containsMouse ? "#ff5555" : Config.inactive
               font.pixelSize: 16
               Layout.alignment: Qt.AlignTop
               
@@ -127,14 +127,14 @@ PanelWindow {
               Layout.fillWidth: true
               placeholderText: toastCard.notification.inlineReplyPlaceholder !== "" ? toastCard.notification.inlineReplyPlaceholder : "Type a reply..."
               
-              placeholderTextColor: Colors.foreground 
+              placeholderTextColor: Config.foreground 
               
-              color: Colors.foreground 
+              color: Config.foreground 
               font.pixelSize: 12
               
               background: Rectangle {
-                color: Colors.background
-                border.color: replyInput.activeFocus ? Colors.selection : Colors.inactive
+                color: Config.background
+                border.color: replyInput.activeFocus ? Config.selection : Config.inactive
                 border.width: 1
                 radius: 6
               }
@@ -150,7 +150,7 @@ PanelWindow {
             Rectangle {
               implicitWidth: 32
               implicitHeight: replyInput.height
-              border.color: Colors.inactive
+              border.color: Config.inactive
               border.width: 1
               radius: 6
               MouseArea {
@@ -165,11 +165,11 @@ PanelWindow {
                   }
                 }
               }
-              color: sendArea.containsMouse ? Colors.selection : "transparent"
+              color: sendArea.containsMouse ? Config.selection : "transparent"
               Text {
                 anchors.centerIn: parent
                 text: "󰒊" 
-                color: Colors.foreground
+                color: Config.foreground
               }
             }
           }
@@ -186,8 +186,8 @@ PanelWindow {
                 visible: modelData.id !== "inline-reply" && modelData.id !== "default"
                 implicitWidth: actionText.implicitWidth + 16
                 implicitHeight: actionText.implicitHeight + 8
-                color: actionArea.containsMouse ? Colors.selection : "transparent"
-                border.color: Colors.inactive
+                color: actionArea.containsMouse ? Config.selection : "transparent"
+                border.color: Config.inactive
                 border.width: 1
                 radius: 6
 
@@ -195,7 +195,7 @@ PanelWindow {
                   id: actionText
                   anchors.centerIn: parent
                   text: modelData.text
-                  color: Colors.foreground
+                  color: Config.foreground
                   font.pixelSize: 12
                 }
 
@@ -218,7 +218,7 @@ PanelWindow {
           anchors.bottom: parent.bottom
           anchors.left: parent.left
           height: 4
-          color: Colors.foreground 
+          color: Config.foreground 
           width: toastCard.width 
           
           NumberAnimation {
@@ -246,7 +246,7 @@ PanelWindow {
         Rectangle {
             anchors.fill: parent
             color: "transparent"
-            border.color: Colors.foreground 
+            border.color: Config.foreground 
             border.width: 1
             radius: 8
         }

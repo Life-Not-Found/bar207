@@ -6,5 +6,5 @@ Text {
 
   // directly access the time property from the Time singleton
   text: Time.time
-  color: Colors.foreground
+  color: Config.foreground
 }

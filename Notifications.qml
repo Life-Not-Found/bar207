@@ -34,10 +34,10 @@ PopupWindow {
 
   Rectangle {
     anchors.fill: parent
-    color: Colors.background
+    color: Config.background
     radius: 16
     border.width: 2
-    border.color: Colors.foreground
+    border.color: Config.foreground
 
     HoverHandler {
       id: hoverHandler
@@ -65,7 +65,7 @@ PopupWindow {
 
       Text {
         text: "Notifications (" + notificationList.count + ")"
-        color: Colors.foreground
+        color: Config.foreground
         font.pixelSize: 14
         font.bold: true
         Layout.bottomMargin: 8
@@ -87,7 +87,7 @@ PopupWindow {
           width: notificationList.width
           implicitHeight: mainCol.implicitHeight + 16
           color: "transparent"
-          border.color: Colors.inactive
+          border.color: Config.inactive
           border.width: 1
           radius: 8
 
@@ -128,7 +128,7 @@ PopupWindow {
 
                 Text {
                   text: notificationCard.notification.summary
-                  color: Colors.foreground
+                  color: Config.foreground
                   font.bold: true
                   Layout.fillWidth: true
                   elide: Text.ElideRight
@@ -136,7 +136,7 @@ PopupWindow {
 
                 Text {
                   text: notificationCard.notification.body
-                  color: Colors.inactive
+                  color: Config.inactive
                   font.pixelSize: 12
                   Layout.fillWidth: true
                   wrapMode: Text.Wrap
@@ -145,7 +145,7 @@ PopupWindow {
 
               Text {
                 text: " 󰅖"
-                color: closeArea.containsMouse ? "#ff5555" : Colors.inactive
+                color: closeArea.containsMouse ? "#ff5555" : Config.inactive
                 font.pixelSize: 16
                 Layout.alignment: Qt.AlignTop
 
@@ -172,14 +172,14 @@ PopupWindow {
                 placeholderText: notificationCard.notification.inlineReplyPlaceholder !== ""
                   ? notificationCard.notification.inlineReplyPlaceholder
                   : "Type a reply..."
-                color: Colors.foreground
+                color: Config.foreground
                 font.pixelSize: 12
 
-                placeholderTextColor: Colors.foreground 
+                placeholderTextColor: Config.foreground 
 
                 background: Rectangle {
-                  color: Colors.background
-                  border.color: Colors.inactive
+                  color: Config.background
+                  border.color: Config.inactive
                   radius: 6
                 }
 
@@ -196,15 +196,15 @@ PopupWindow {
               Rectangle {
                 implicitWidth: 32
                 implicitHeight: replyInput.height
-                color: sendArea.containsMouse ? Colors.selection : "transparent"
-                border.color: Colors.inactive
+                color: sendArea.containsMouse ? Config.selection : "transparent"
+                border.color: Config.inactive
                 border.width: 1
                 radius: 6
 
                 Text {
                   anchors.centerIn: parent
                   text: "󰒊"
-                  color: Colors.foreground
+                  color: Config.foreground
                 }
 
                 MouseArea {
@@ -237,8 +237,8 @@ PopupWindow {
                   visible: modelData.id !== "inline-reply" && modelData.id !== "default"
                   implicitWidth: actionText.implicitWidth + 16
                   implicitHeight: actionText.implicitHeight + 8
-                  color: actionArea.containsMouse ? Colors.selection : "transparent"
-                  border.color: Colors.inactive
+                  color: actionArea.containsMouse ? Config.selection : "transparent"
+                  border.color: Config.inactive
                   border.width: 1
                   radius: 6
 
@@ -246,7 +246,7 @@ PopupWindow {
                     id: actionText
                     anchors.centerIn: parent
                     text: modelData.text
-                    color: Colors.foreground
+                    color: Config.foreground
                     font.pixelSize: 12
                   }
 

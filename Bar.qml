@@ -7,6 +7,7 @@ import Quickshell.Services.SystemTray
 import Quickshell.Services.Pipewire
 import Quickshell.Services.Mpris
 import Quickshell.Services.Notifications
+import Quickshell.Services.UPower
 
 Scope {
   Variants {
@@ -49,14 +50,14 @@ Scope {
                   Rectangle {
                     required property var modelData
                     radius: height / 3
-                    color: modelData.focused ? Colors.selection : "transparent"
+                    color: modelData.focused ? Config.selection : "transparent"
                     implicitWidth: wsLabel.implicitWidth + 12
                     implicitHeight: 20
                     Text {
                       id: wsLabel
                       anchors.centerIn: parent
                       text: modelData.id
-                      color: modelData.focused ? Colors.foreground : Colors.inactive
+                      color: modelData.focused ? Config.foreground : Config.inactive
                     }
                     MouseArea {
                       anchors.fill: parent
@@ -72,7 +73,7 @@ Scope {
               RowLayout {
                 Text {
                   text: "󰒮" // back
-                  color: Colors.foreground
+                  color: Config.foreground
                   MouseArea {
                     anchors.fill: parent
                     onClicked: Mpris.players.values[0]?.previous()
@@ -80,7 +81,7 @@ Scope {
                 }
                 Text {
                   text: Mpris.players.values[0]?.playbackState === MprisPlaybackState.Playing ? "" : "" 
-                  color: Colors.foreground
+                  color: Config.foreground
                   MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -94,7 +95,7 @@ Scope {
                 }
                 Text {
                   text: "󰒭" // next
-                  color: Colors.foreground
+                  color: Config.foreground
                   MouseArea {
                     anchors.fill: parent
                     onClicked: Mpris.players.values[0]?.next()
@@ -103,7 +104,7 @@ Scope {
                 Text {
                   property var player: Mpris.players.values[0]
                   text: player ? (player.metadata["xesam:title"] + " - " + player.metadata["xesam:artist"]) : ""
-                  color: Colors.foreground
+                  color: Config.foreground
                   MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -187,7 +188,7 @@ Scope {
               spacing: 12
                 Text {
                   text: "  " + Math.round((Pipewire.defaultAudioSink?.audio?.volume ?? 0) * 100) + "%"
-                  color: Colors.foreground
+                  color: Config.foreground
                   MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -200,7 +201,7 @@ Scope {
                 }
                 Text {
                   text: "" // Network
-                  color: Colors.foreground
+                  color: Config.foreground
                   MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -213,7 +214,7 @@ Scope {
                 }
                 Text {
                   text: "" // Notifications
-                  color: Colors.foreground
+                  color: Config.foreground
                   MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -226,7 +227,7 @@ Scope {
                 }
                 Text {
                   text: "󰂯" // Bluetooth
-                  color: Colors.foreground
+                  color: Config.foreground
                   MouseArea {
                     anchors.fill: parent
                     onClicked: {
@@ -237,9 +238,12 @@ Scope {
                     }
                   }
                 }
+                Battery {
+                  parentBar: bar
+                }
                 Text {
                   text: "󰐥" 
-                  color: Colors.foreground
+                  color: Config.foreground
                   MouseArea {
                     anchors.fill: parent
                     onClicked: powerMenu.active = true

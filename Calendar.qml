@@ -27,10 +27,10 @@ PopupWindow {
 
   Rectangle {
     anchors.fill: parent
-    color: Colors.background
+    color: Config.background
     radius: 16
     border.width: 2
-    border.color: Colors.foreground
+    border.color: Config.foreground
 
     HoverHandler {
       property bool hasHovered: false
@@ -63,7 +63,7 @@ PopupWindow {
 
         Text {
           text: "󰜱"
-          color: prevArea.containsMouse ? Colors.foreground : Colors.inactive
+          color: prevArea.containsMouse ? Config.foreground : Config.inactive
           font.pixelSize: 14
           MouseArea {
             id: prevArea
@@ -84,14 +84,14 @@ PopupWindow {
           Layout.fillWidth: true
           horizontalAlignment: Text.AlignHCenter
           text: Qt.formatDate(new Date(calendarWindow.viewYear, calendarWindow.viewMonth, 1), "MMMM yyyy")
-          color: Colors.foreground
+          color: Config.foreground
           font.pixelSize: 14
           font.bold: true
         }
 
         Text {
           text: "󰜴"
-          color: nextArea.containsMouse ? Colors.foreground : Colors.inactive
+          color: nextArea.containsMouse ? Config.foreground : Config.inactive
           font.pixelSize: 14
           MouseArea {
             id: nextArea
@@ -113,7 +113,7 @@ PopupWindow {
       Rectangle {
         Layout.fillWidth: true
         height: 1
-        color: Colors.foreground
+        color: Config.foreground
         opacity: 0.2
       }
 
@@ -129,7 +129,7 @@ PopupWindow {
             width: (calendarLayout.width - 12) / 7
             horizontalAlignment: Text.AlignHCenter
             text: modelData
-            color: Colors.inactive
+            color: Config.inactive
             font.pixelSize: 11
           }
         }
@@ -169,7 +169,7 @@ PopupWindow {
               if (day === dayGrid.todayDay &&
                   calendarWindow.viewMonth === dayGrid.todayMonth &&
                   calendarWindow.viewYear === dayGrid.todayYear)
-                return Colors.selection
+                return Config.selection
               return "transparent"
             }
 
@@ -181,8 +181,8 @@ PopupWindow {
                 if (day === dayGrid.todayDay &&
                     calendarWindow.viewMonth === dayGrid.todayMonth &&
                     calendarWindow.viewYear === dayGrid.todayYear)
-                  return Colors.foreground
-                return day >= 1 && day <= dayGrid.daysInMonth ? Colors.foreground : "transparent"
+                  return Config.foreground
+                return day >= 1 && day <= dayGrid.daysInMonth ? Config.foreground : "transparent"
               }
               font.pixelSize: 12
             }
