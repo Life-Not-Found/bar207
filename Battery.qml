@@ -4,8 +4,12 @@ import Quickshell.Services.UPower
 import QtQuick
 import QtQuick.Layouts
 
-RowLayout {
+Item {
   id: root
+
+  // DEBUG: to test without battery
+  visible: battery?.isPresent ?? false
+  // visible: true
 
   required property PanelWindow parentBar
 
@@ -14,6 +18,9 @@ RowLayout {
   readonly property int pct: battery?.isPresent ?? false
     ? Math.round((battery.percentage ?? 0) * 100)
     : 75
+
+  // // DEBUG: to test charging without battery
+  // readonly property bool charging: true
 
   readonly property bool charging: battery?.state === UPowerDeviceState.Charging
     || battery?.state === UPowerDeviceState.FullyCharged
@@ -54,24 +61,40 @@ RowLayout {
 
   readonly property string timeString: {
     var secs = charging ? (battery?.timeToFull ?? 0) : (battery?.timeToEmpty ?? 0)
-    if (secs <= 0) return charging ? "Full" : ""
+    if (secs <= 0) return ""
     var h = Math.floor(secs / 3600)
     var m = Math.floor((secs % 3600) / 60)
-    if (h > 0) return h + "h " + m + "m"
+    if (h > 0 && m > 0) return h + "h " + m + "m"
+    if (h > 0) return h + "h"
     return m + "m"
   }
 
-  spacing: 4
-
-  Text {
-    text: root.batteryIcon
-    color: root.iconColor
+  readonly property string statusLine: {
+    if (battery?.state === UPowerDeviceState.FullyCharged)
+      return "Fully charged"
+    if (charging)
+      return timeString !== "" ? timeString + " until full" : "Charging"
+    return timeString !== "" ? timeString + " remaining" : "Discharging"
   }
 
-  Text {
-    text: root.pct + "%"
-    color: root.iconColor
-    visible: Config.showBatteryPercent
+  implicitWidth: barRow.implicitWidth
+  implicitHeight: barRow.implicitHeight
+
+  RowLayout {
+    id: barRow
+    anchors.centerIn: parent
+    spacing: 4
+
+    Text {
+      text: root.batteryIcon
+      color: root.iconColor
+    }
+
+    Text {
+      text: root.pct + "%"
+      color: root.iconColor
+      visible: Config.showBatteryPercent
+    }
   }
 
   MouseArea {
@@ -91,7 +114,7 @@ RowLayout {
     anchor.rect.x: 0
     anchor.rect.y: 48
 
-    implicitWidth: 200
+    implicitWidth: 220
     implicitHeight: batteryLayout.implicitHeight + 24
     color: "transparent"
 
@@ -137,31 +160,29 @@ RowLayout {
         RowLayout {
           Layout.fillWidth: true
           spacing: 12
+
           Text {
             text: root.batteryIcon
             color: root.iconColor
             font.pixelSize: 24
           }
+
           ColumnLayout {
+            Layout.fillWidth: true
             spacing: 2
+
             Text {
               text: root.pct + "%"
               color: Config.foreground
               font.pixelSize: 16
               font.bold: true
             }
+
             Text {
-              text: {
-                if (battery?.state === UPowerDeviceState.FullyCharged)
-                  return "Fully charged"
-                if (charging && timeString !== "" && timeString !== "Full")
-                  return timeString + " until full"
-                if (!charging && timeString !== "")
-                  return timeString + " remaining"
-                return charging ? "Charging" : "Discharging"
-              }
+              text: root.charging ? "Charging" : "Discharging"
               color: Config.inactive
               font.pixelSize: 12
+              visible: root.timeString === ""
             }
           }
         }
@@ -172,6 +193,7 @@ RowLayout {
           radius: 3
           color: Config.inactive
           opacity: 0.4
+
           Rectangle {
             width: parent.width * (root.pct / 100)
             height: parent.height
@@ -180,6 +202,41 @@ RowLayout {
             opacity: 1.0 / parent.opacity
           }
         }
+
+        Rectangle {
+          Layout.fillWidth: true
+          height: 1
+          color: Config.inactive
+          opacity: 0.3
+          visible: root.timeString !== ""
+        }
+
+        RowLayout {
+          Layout.fillWidth: true
+          visible: root.timeString !== ""
+
+          Text {
+            text: root.charging ? "󰂄" : "󰁹"
+            color: Config.inactive
+            font.pixelSize: 12
+          }
+
+          Text {
+            text: root.charging ? "Time until full" : "Time remaining"
+            color: Config.inactive
+            font.pixelSize: 12
+            Layout.fillWidth: true
+          }
+
+          Text {
+            text: root.timeString
+            color: Config.foreground
+            font.pixelSize: 12
+            font.bold: true
+          }
+        }
+
+        Item { implicitHeight: 4 }
       }
     }
   }
