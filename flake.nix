@@ -126,6 +126,8 @@
             in {
               environment.systemPackages = [ finalPackage ];
 
+              services.upower.enable = true;
+
               systemd.user.services.bar207 = {
                 description = "bar207 Quickshell Status Bar";
                 wantedBy = [ "graphical-session.target" ];
