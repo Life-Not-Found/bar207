@@ -74,7 +74,7 @@
 
             showBatteryPercent = lib.mkOption {
               type = lib.types.bool;
-              default = false;
+              default = true;
               description = "Show battery percentage next to the battery icon in the bar.";
             };
 
